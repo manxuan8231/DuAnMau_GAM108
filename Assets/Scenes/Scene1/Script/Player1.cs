@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player1 : MonoBehaviour
@@ -7,6 +8,8 @@ public class Player1 : MonoBehaviour
     
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private float _moveJump = 5f;
+    [SerializeField] private float _moveClimb = 5f;//van toc leo thang
+
     //Khai bao nam ngang and flip
     private float Horizontal;
     private bool right=true;
@@ -16,13 +19,17 @@ public class Player1 : MonoBehaviour
 
     //Khai báo rigidbody
     private Rigidbody2D rb;
-
+    Vector2 moveInput;
     //khai báo animator
     private Animator at;
+
+    //khai bao capsu
+    CapsuleCollider2D capsule2D;
     void Start()
     {
       rb = GetComponent<Rigidbody2D>();
       at = GetComponent<Animator>();
+      capsule2D = GetComponent<CapsuleCollider2D>();
     }
 
     
@@ -31,6 +38,7 @@ public class Player1 : MonoBehaviour
         Move();
         Flip();
         Animator();
+        moveClimb();
     }
 
     public void Move()
@@ -51,6 +59,9 @@ public class Player1 : MonoBehaviour
         if(other.gameObject.tag == "Dat")
         {
             _okJump = true;
+        }else if(other.gameObject.tag == "Trap")//đạp trap die
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -76,5 +87,20 @@ public class Player1 : MonoBehaviour
             kichThuoc.x = kichThuoc.x *-1;
             transform.localScale = kichThuoc;
         }
+    }
+   
+    void moveClimb()
+    {
+        var isChamThang = capsule2D.IsTouchingLayers(LayerMask.GetMask("Climbing"));
+        if(!isChamThang)
+        {
+            return; 
+        }
+        var climbVelocity = new Vector2(rb.velocity.x, moveInput.y * _moveClimb);
+        rb.velocity = climbVelocity;
+
+        //điều khiển animation leo thang
+        var playerHasVerticalSpeed = Mathf.Abs(moveInput.y) > Mathf.Epsilon;
+        at.SetBool("isClimping", playerHasVerticalSpeed);
     }
 }
