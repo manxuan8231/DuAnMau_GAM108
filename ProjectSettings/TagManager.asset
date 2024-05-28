@@ -5,14 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dat
+  - Coin
+  - Quai
+  - Trap
+  - Climbing
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Climbing
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
@@ -41,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Climbing
+    uniqueID: 2323630363
+    locked: 0
+  - name: Player
+    uniqueID: 649312439
     locked: 0
