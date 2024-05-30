@@ -17,6 +17,11 @@ public class Player1 : MonoBehaviour
     //khai báo jump true false
     [SerializeField] private bool _okJump;
 
+    //tham chiếu đạn
+    public GameObject bulletPrefab;
+    //tham Chiếu tới vị trí súng
+    public Transform gunTransform;
+
     //Khai báo rigidbody
     private Rigidbody2D rb;
     Vector2 moveInput;
@@ -39,6 +44,7 @@ public class Player1 : MonoBehaviour
         Flip();
         Animator();
         moveClimb();
+        File();
     }
 
     public void Move()
@@ -52,16 +58,39 @@ public class Player1 : MonoBehaviour
             rb.AddForce(Vector2.up * _moveJump, ForceMode2D.Impulse);
         }
     }
+    public void File()
+    {
+        //nếu nhấn f thì bắn 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            //animator
+            at.SetTrigger("isFile");
+            //tạo ra viên đạn tại vị trí súng
+            var oneBullet = Instantiate(bulletPrefab, gunTransform.position, Quaternion.identity);
+            //cho đạn bay theo huong nhân vật
+            var velocity = new Vector2(50f, 0);
+            if (right == false)
+            {
+                velocity.x = -50;
+            }
+            oneBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(right ? 50 : -50, 0);
+            //huy viên đạn sau 2s
+            Destroy(oneBullet, 0.5f);
+        }
 
+    }
     //xử lý va chạm 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Dat")
         {
             _okJump = true;
-        }else if(other.gameObject.tag == "Trap")//đạp trap die
+        }else if(other.gameObject.tag == "Trap"|| other.gameObject.tag == "Quai")//đạp trap die
         {
             Destroy(gameObject);
+        }else if(other.gameObject.tag == "Coin")//an coin
+        {
+            Destroy(other.gameObject);
         }
     }
 
@@ -77,6 +106,8 @@ public class Player1 : MonoBehaviour
     public void Animator()
     {
         at.SetFloat("isRun", Mathf.Abs(Horizontal));
+        
+        
     }
     public void Flip()
     {
