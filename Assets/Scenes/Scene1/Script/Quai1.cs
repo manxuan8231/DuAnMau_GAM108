@@ -57,4 +57,30 @@ public class Quai1 : MonoBehaviour
         }
         transform.localScale = currentScale;
     }
+
+    public void OnTriggerEnter2D(Collider2D other)//xử lý va chạm
+    {
+        var name = other.gameObject.name;
+        var tag = other.gameObject.tag;
+        if (tag == "Bullet")//đụng bullet chết
+        {
+            Destroy(gameObject);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+
+        var tag = other.gameObject.tag;
+        Bekilled(tag);
+
+    }
+
+    private void Bekilled(string tag)
+    {
+        if (tag == "dan")
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
