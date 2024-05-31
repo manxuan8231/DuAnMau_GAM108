@@ -9,6 +9,7 @@ TagManager:
   - Quai
   - Trap
   - Climbing
+  - Bullet
   layers:
   - Default
   - TransparentFX
