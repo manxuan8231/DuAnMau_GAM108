@@ -10,6 +10,7 @@ TagManager:
   - Trap
   - Climbing
   - Bullet
+  - EnemyTopSide
   layers:
   - Default
   - TransparentFX
