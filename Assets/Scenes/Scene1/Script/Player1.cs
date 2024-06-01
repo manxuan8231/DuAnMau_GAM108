@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class Player1 : MonoBehaviour
 {
    
-    [SerializeField] private float _moveSpeed = 1f;
-    [SerializeField] private float _moveJump = 5f;
-    [SerializeField] private float _moveClimb = 5f;    
-    //Khai bao nam ngang and flip
+    [SerializeField] private float _moveSpeed = 1f;//cho vận tốc di chuyển 
+    [SerializeField] private float _moveJump = 5f;//vận tốc nhảy
+    [SerializeField] private float _moveTop = 7f;//vận tốc đạp đầu quái nhảy
+    [SerializeField] private float _moveSlime = 15f;//vận tốc đạp slime nhảy
+    [SerializeField] private float _moveClimb = 5f; //vận tốc leo thang
+
+    //Khai bao nằm ngang và flip(xoay)
     private float Horizontal;
+    //đạn bay theo hướng nhân vật
     private bool right=true;
 
     //khai báo jump true false
@@ -27,16 +36,29 @@ public class Player1 : MonoBehaviour
     //khai báo animator
     private Animator at;
 
-    //khai bao capsu
+    //tham chiếu audioSource
+    private AudioSource AudioSource;//trình phát nhạc
+    [SerializeField] private AudioClip coinCollectSXF;//file nhạc coin
+    [SerializeField] private AudioClip enemySXF;//Đạp Quái 
+    
+    //tham chiếu đến điểm số
+    [SerializeField] private TextMeshProUGUI ScoreText;
+    private static int score = 0;
+
+
+    //khai báo capsu
     CapsuleCollider2D capsule2D;
     void Start()
     {
-      rb = GetComponent<Rigidbody2D>();
-      at = GetComponent<Animator>();
-      capsule2D = GetComponent<CapsuleCollider2D>();
+    rb = GetComponent<Rigidbody2D>();
+    at = GetComponent<Animator>();
+    capsule2D = GetComponent<CapsuleCollider2D>();
+    AudioSource = GetComponent<AudioSource>();
+    ScoreText.text = score.ToString();
+
     }
 
-    
+
     void Update()
     {
         Move();
@@ -89,21 +111,29 @@ public class Player1 : MonoBehaviour
         }
         else if(other.gameObject.tag == "Trap"|| other.gameObject.tag == "Quai")//đạp trap die
         {
+                      
             Destroy(gameObject);
 
-        }else if(other.gameObject.tag == "Coin")//an coin
+        }else if(other.gameObject.tag == "Coin")
         {
+            //Làm mất coin
             Destroy(other.gameObject);
-
-        }else if (other.gameObject.CompareTag("EnemyTopSide"))//dap dau
+            //Phát nhạc
+            AudioSource.PlayOneShot(coinCollectSXF);
+            //tăng điểm 
+            score += 10;
+            ScoreText.text = score.ToString();
+        }
+        else if (other.gameObject.CompareTag("EnemyTopSide"))//dap dau
         {
             //lm mat oc
             Destroy(other.gameObject.transform.parent.gameObject);
-            rb.AddForce(Vector2.up * _moveJump, ForceMode2D.Impulse);
+            AudioSource.PlayOneShot(enemySXF);//Phát nhạc
+            rb.AddForce(Vector2.up * _moveTop, ForceMode2D.Impulse);//jump
 
-        }else if (other.gameObject.CompareTag("Climbing"))
+        }else if (other.gameObject.CompareTag("slimeJump"))
         {
-           
+            rb.AddForce(Vector2.up * _moveSlime, ForceMode2D.Impulse);
         }
 
     }

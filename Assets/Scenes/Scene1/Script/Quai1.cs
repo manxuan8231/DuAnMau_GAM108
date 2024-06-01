@@ -77,7 +77,7 @@ public class Quai1 : MonoBehaviour
 
     private void Bekilled(string tag)
     {
-        if (tag == "dan")
+        if (tag == "Bullet")
         {
             Destroy(gameObject);
         }
