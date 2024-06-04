@@ -52,13 +52,39 @@ public class Player1 : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     private static float _time = 0;
 
+    //khai báo biến quản lí số nhân vật
+    [SerializeField] private static int lives = 3;
+
+    //tham chieu đến 3 hình ảnh mạng
+    [SerializeField] private GameObject[] _liveImages;
+
+    //khai báo tới tham chiếu game over
+    [SerializeField] private GameObject _gameOverPanel;
+    
+
     void Start()
     {
     rb = GetComponent<Rigidbody2D>();
     at = GetComponent<Animator>();
     capsule2D = GetComponent<CapsuleCollider2D>();
     AudioSource = GetComponent<AudioSource>();
-    ScoreText.text = score.ToString();
+        //hiển thị điểm 
+        ScoreText.text = score.ToString();
+        
+        //Xóa 1 mạng bằng hình
+        for (int i = 0; i < 3; i++)
+        {
+            if (i < lives)
+            {
+                _liveImages[i].SetActive(true);
+            }
+            else
+            {
+                _liveImages[i].SetActive(false);
+            }
+        }
+        //gán giá trị mặc định cho thgian
+        _timeText.text = $"{_time:0.00}";
 
     }
 
@@ -116,17 +142,12 @@ public class Player1 : MonoBehaviour
     //xử lý va chạm 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Dat")//chạm đất thì dc phép nhảy
+        if (other.gameObject.tag == "Dat")//chạm đất thì dc phép nhảy
         {
             _okJump = true;
-            
-        }
-        else if(other.gameObject.tag == "Trap"|| other.gameObject.tag == "Quai")//đạp trap và quái chết
-        {
-                      
-            Destroy(gameObject);
 
-        }else if(other.gameObject.tag == "Coin")
+        }       
+        else if (other.gameObject.tag == "Coin")
         {
             //Làm mất coin
             Destroy(other.gameObject);
@@ -148,12 +169,43 @@ public class Player1 : MonoBehaviour
         {
             rb.AddForce(Vector2.up * _moveSlime, ForceMode2D.Impulse);//đạp slime r nhảy
 
-        }else if(other.gameObject.tag == "Climbing")//chạm thang true
+        }
+        else if (other.gameObject.tag == "Climbing")//chạm thang true
         {
-            _okClimbing = true;            
+            _okClimbing = true;
+        }
+        else if (other.gameObject.CompareTag("Quai")|| other.gameObject.tag == "Trap")
+        {
+            //Mất 1 mạng, reload màn chs
+            lives -= 1;
+            //Xóa 1 mạng bằng hình
+            for (int i = 0; i < 3; i++)
+            {
+                if (i < lives)
+                {
+                    _liveImages[i].SetActive(true);
+                }
+                else
+                {
+                    _liveImages[i].SetActive(false);
+                }
+            }
+            if (lives > 0)
+            {
+                //reload màn chơi hiện tại
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                
+            }
+            else
+            {
+                //Hiện thông báo game over
+                _gameOverPanel.SetActive(true);
+                //dừng game
+                Time.timeScale = 0;
+            }
         }
 
-    }
+     }
 
     private void FixedUpdate()//thang
     {
