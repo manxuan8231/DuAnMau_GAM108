@@ -173,6 +173,7 @@ public class Player1 : MonoBehaviour
         else if (other.gameObject.tag == "Climbing")//chạm thang true
         {
             _okClimbing = true;
+            rb.gravityScale = 0f;
         }
         else if (other.gameObject.CompareTag("Quai")|| other.gameObject.tag == "Trap")
         {
@@ -213,6 +214,7 @@ public class Player1 : MonoBehaviour
         {
             var climninput = Input.GetAxis("Vertical");
             rb.velocity = new Vector2(rb.velocity.x, climninput * _moveClimb);
+            at.SetTrigger("isClimbing");
         }
     }
     //xử lý va chạm exit
@@ -225,7 +227,7 @@ public class Player1 : MonoBehaviour
         if (other.gameObject.tag == "Climbing")//chạm thang false
         {           
             _okClimbing = false;
-            
+            rb.gravityScale = 2f;
         }
     }
     
