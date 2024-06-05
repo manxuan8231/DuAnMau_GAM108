@@ -26,7 +26,7 @@ public class Quai1 : MonoBehaviour
     private void diChuyenNgang()
     {
         //di chuyển ngang
-        var direction = Vector3.right; //cách 2
+        var direction = Vector3.right; 
         if ((isRight == false))
         {
             direction = Vector3.left;
