@@ -142,6 +142,10 @@ public class Player1 : MonoBehaviour
     //xử lý va chạm 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.gameObject.CompareTag("Exit"))
+        {
+            SceneManager.LoadScene("Scene4");
+        }
         if (other.gameObject.tag == "Dat")//chạm đất thì dc phép nhảy
         {
             _okJump = true;
