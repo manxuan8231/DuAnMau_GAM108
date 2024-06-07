@@ -26259,7 +26259,7 @@ MonoBehaviour:
   _moveClimb: 1
   _okJump: 0
   _okClimbing: 0
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 3115142073233243494, guid: 1f442843951eba34bab1d76823339679, type: 3}
   gunTransform: {fileID: 0}
   coinCollectSXF: {fileID: 0}
   enemySXF: {fileID: 0}
