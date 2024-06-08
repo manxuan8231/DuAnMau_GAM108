@@ -25,7 +25,6 @@ public class Player1 : MonoBehaviour
     [SerializeField] private bool _okJump;
     //thang bool
     [SerializeField] private bool _okClimbing;
-    
     //tham chiếu đạn
     public GameObject bulletPrefab;
     //tham Chiếu tới vị trí súng
@@ -37,7 +36,9 @@ public class Player1 : MonoBehaviour
     //khai báo animator
     private Animator at;
 
-    
+    //khai báo capsu
+    CapsuleCollider2D capsule2D;
+
     //tham chiếu audioSource
     private AudioSource AudioSource;//trình phát nhạc
     [SerializeField] private AudioClip coinCollectSXF;//file nhạc coin
@@ -65,7 +66,7 @@ public class Player1 : MonoBehaviour
     {
     rb = GetComponent<Rigidbody2D>();
     at = GetComponent<Animator>();
-    
+    capsule2D = GetComponent<CapsuleCollider2D>();
     AudioSource = GetComponent<AudioSource>();
         //hiển thị điểm 
         ScoreText.text = score.ToString();
@@ -83,7 +84,7 @@ public class Player1 : MonoBehaviour
             }
         }
         //gán giá trị mặc định cho thgian
-        _timeText.text = $"{_time: 0.00}";
+        _timeText.text = $"{_time:0.00}";
 
     }
 
@@ -210,14 +211,14 @@ public class Player1 : MonoBehaviour
         }
 
      }
-   
+
     private void FixedUpdate()//thang
     {
         if (_okClimbing)
         {
             var climninput = Input.GetAxis("Vertical");
             rb.velocity = new Vector2(rb.velocity.x, climninput * _moveClimb);
-            at.SetTrigger("isClimbing");//animator
+            at.SetTrigger("isClimbing");
         }
     }
     //xử lý va chạm exit
