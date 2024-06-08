@@ -11,6 +11,9 @@ TagManager:
   - Climbing
   - Bullet
   - EnemyTopSide
+  - slimeJump
+  - Water
+  - Block
   layers:
   - Default
   - TransparentFX
