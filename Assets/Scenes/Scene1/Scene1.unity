@@ -15998,7 +15998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
-  _moveJump: 7
+  _moveJump: 6
   _moveTop: 10
   _moveSlime: 15
   _moveClimb: 5
