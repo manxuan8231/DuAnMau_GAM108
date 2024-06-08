@@ -43,6 +43,6 @@ public class Gate : MonoBehaviour
             }
         }
         //chuyển sang scene2 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
