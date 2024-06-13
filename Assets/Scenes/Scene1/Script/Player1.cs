@@ -174,7 +174,7 @@ public class Player1 : MonoBehaviour
             _okClimbing = true;
             rb.gravityScale = 0f;
         }
-        else if (other.gameObject.CompareTag("Quai")|| other.gameObject.tag == "Trap")
+        else if (other.gameObject.CompareTag("Quai")|| other.gameObject.tag == "Trap"|| other.gameObject.CompareTag("Boss"))
         {
             //Mất 1 mạng, reload màn chs
             lives -= 1;
@@ -240,9 +240,9 @@ public class Player1 : MonoBehaviour
     {
         if(right && Horizontal < 0 || !right && Horizontal > 0) 
         {
-            right=!right;
+            right =! right;
             Vector3 kichThuoc = transform.localScale;
-            kichThuoc.x = kichThuoc.x *-1;
+            kichThuoc.x = kichThuoc.x * -1;
             transform.localScale = kichThuoc;
         }
     }
