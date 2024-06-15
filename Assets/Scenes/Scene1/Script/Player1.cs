@@ -65,8 +65,8 @@ public class Player1 : MonoBehaviour
     {
     rb = GetComponent<Rigidbody2D>();
     at = GetComponent<Animator>();
-    
     AudioSource = GetComponent<AudioSource>();
+
         //hiển thị điểm 
         ScoreText.text = score.ToString();
         
@@ -82,9 +82,7 @@ public class Player1 : MonoBehaviour
                 _liveImages[i].SetActive(false);
             }
         }
-        //gán giá trị mặc định cho thgian
-        _timeText.text = $"{_time: 0.00}";
-
+       
     }
 
 
@@ -236,7 +234,7 @@ public class Player1 : MonoBehaviour
         
         
     }
-    public void Flip()
+    public void Flip()//xoay mặt
     {
         if(right && Horizontal < 0 || !right && Horizontal > 0) 
         {
